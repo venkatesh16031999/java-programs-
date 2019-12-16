@@ -1,0 +1,33 @@
+import java.util.*;
+
+public class Main
+{
+	public static void main(String[] args) {
+		String str="abcdcdbyxyxys";
+		int max=0;
+		for(int i=1;i<str.length()-1;i++){
+		    int front=i;
+		    int back=i;
+		   
+		    while(true){
+		        try{
+		            if(str.charAt(front)==str.charAt(back)){
+		                 front++;
+		                   back--; 
+		            }else{
+		                break;
+		            }
+		        }catch(Exception e){
+		            break;
+		        }
+		        
+		    }
+		     String s=str.substring(back+1,front);
+		        if(s.length()>max){
+		            max=s.length();
+		        }
+		   
+		}
+		System.out.println(max);
+	}
+}
