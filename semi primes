@@ -1,0 +1,50 @@
+import java.util.*;
+public class Main
+{
+    
+    public static ArrayList<Integer> list=new ArrayList<>();
+    
+    public static int prime(int n){
+        if(n<=1){
+            return -1;
+        }
+        int flag=0;
+        for(int i=2;i<n;i++){
+            if(n%i==0){
+                flag=1;
+                break;
+            }
+        }
+        if(flag==1){
+            return -1;
+        }else{
+            return n;
+        }
+        
+    }
+    
+    public static void find(int n){
+        int nn=0;
+        for(int i=1;i<=n;i++){
+            for(int j=2;j<i;j++){
+                if(prime(j)!=-1 && i%j==0){
+                    nn=i/j;
+                    
+                    if(prime(nn)!=-1){
+                        if(!list.contains(i)){
+                            list.add(i);
+                        }
+                    }
+                }
+            }
+        }
+        
+    }
+    
+	public static void main(String[] args) {
+		int n=71;
+	        find(n);
+	        System.out.println(list);
+	    
+	}
+}
