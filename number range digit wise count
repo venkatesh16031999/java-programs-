@@ -5,17 +5,17 @@ public class Main
     public static void find(Integer arr[],int n,int k){
        int count=0;
         list.addAll(Arrays.asList(arr));
-        for(int i=0;i<k;i++){
+        for(int i=k-1;i>=0 && String.valueOf(i).length()==n ;i--){
              int flag=0;
-            if(String.valueOf(i).length()==n){
+            
                 for(int j=0;j<String.valueOf(i).length();j++){
                     if(!list.contains(Integer.valueOf(String.valueOf(String.valueOf(i).charAt(j))))){
                         flag=1;
                         break;
                     }
                 }
-            }
-            if(flag==0 && String.valueOf(i).length()==n){
+            
+            if(flag==0){
                 count++;
             }
         }
