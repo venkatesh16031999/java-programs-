@@ -1,0 +1,32 @@
+import java.util.*;
+public class Main
+{
+    public static ArrayList<Integer> list=new ArrayList<>();
+    public static void find(Integer arr[],int n,int k){
+       int count=0;
+        list.addAll(Arrays.asList(arr));
+        for(int i=0;i<k;i++){
+             int flag=0;
+            if(String.valueOf(i).length()==n){
+                for(int j=0;j<String.valueOf(i).length();j++){
+                    if(!list.contains(Integer.valueOf(String.valueOf(String.valueOf(i).charAt(j))))){
+                        flag=1;
+                        break;
+                    }
+                }
+            }
+            if(flag==0 && String.valueOf(i).length()==n){
+                count++;
+            }
+        }
+        
+        System.out.println(count);
+        
+    }
+    
+	public static void main(String[] args) {
+	Integer arr[]={1,0,5};
+	find(arr,1,2);
+		
+	}
+}
