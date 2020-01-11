@@ -1,0 +1,61 @@
+import java.util.*;
+public class Main
+{
+    
+    public static void per(ArrayList<Integer> list,int k){
+        
+        for(int i=k;i<list.size();i++){
+            Collections.swap(list,i,k);
+            per(list,k+1);
+            Collections.swap(list,k,i);
+        }
+        
+        if(k==list.size()){
+          
+                check(list);
+            
+        }
+        
+    }
+    
+    public static void check(ArrayList<Integer> list){
+        int first=0;
+        int last=0;
+        int flag=0;
+        
+        for(int i=0;i<list.size();i++){
+            
+               try {
+                    int len=String.valueOf(list.get(i+1)).length()-1;
+                first=list.get(i+1)/(int)Math.pow(10,len);
+                last=list.get(i)%10;
+                
+                if(first!=last){
+                    flag=1;
+                    break;
+                }
+               } catch(Exception e) {
+                   continue;
+               } 
+               
+        }
+        
+        if(flag==0){
+            System.out.println(list);
+        }
+        
+    }
+    
+	public static void main(String[] args) {
+	   
+		ArrayList<Integer> list=new ArrayList<>();
+		
+		list.add(123);
+		list.add(223);
+		list.add(322);
+			list.add(222);
+			list.add(331);
+		per(list,0);
+		
+	}
+}
