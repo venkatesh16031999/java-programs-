@@ -1,0 +1,106 @@
+import java.util.*;
+
+class Position{
+    int y;
+    int x;
+    
+    public Position(int x,int y){
+        this.x=x;
+        this.y=y;
+    }
+    
+}
+
+public class Main
+{
+    
+    public static int arr[][]={
+        {1,0,1,1,1},
+        {1,1,1,0,1},
+        {1,0,1,0,2}
+    }; 
+    
+    public static Stack<Position> st=new Stack<>();
+    
+    public static boolean isValid(int x,int y){
+        if(x>=arr.length || x<0 || y>=arr[0].length || y<0){
+            return false;
+        }
+        return true;
+    }
+    
+	public static void main(String[] args) {
+		Position p=new Position(0,0);
+		st.add(p);
+		
+		while(true){
+		    int x=st.peek().x;
+		    int y=st.peek().y;
+		    
+		    arr[x][y]=0;
+		    
+		    
+		    //down
+		    if(isValid(x+1,y)){
+		        if(arr[x+1][y]==2){
+		            System.out.println("you moved down. you won");
+		            break;
+		        }else if(arr[x+1][y]==1){
+		            System.out.println("you moved down");
+		            st.push(new Position(x+1,y));
+		            continue;
+		        }
+		    }
+		    
+		    
+		     //up
+		    if(isValid(x-1,y)){
+		        if(arr[x-1][y]==2){
+		            System.out.println("you moved up. you won");
+		            break;
+		        }else if(arr[x-1][y]==1){
+		            System.out.println("you moved up");
+		            st.push(new Position(x-1,y));
+		            continue;
+		        }
+		    }
+		    
+		    
+		     //right
+		    if(isValid(x,y+1)){
+		        if(arr[x][y+1]==2){
+		            System.out.println("you moved right. you won");
+		            break;
+		        }else if(arr[x][y+1]==1){
+		            System.out.println("you moved right");
+		            st.push(new Position(x,y+1));
+		            continue;
+		        }
+		    }
+		    
+		    
+		      //left
+		    if(isValid(x,y-1)){
+		        if(arr[x][y-1]==2){
+		            System.out.println("you moved left. you won");
+		            break;
+		        }else if(arr[x][y-1]==1){
+		            System.out.println("you moved left");
+		            st.push(new Position(x,y-1));
+		            continue;
+		        }
+		    }
+		    
+		    
+		    st.pop();
+		    System.out.println("back");
+		    if(st.size()<=0){
+		        System.out.println("No path");
+		        break;
+		    }
+		    
+		    
+		}
+		
+	}
+}
