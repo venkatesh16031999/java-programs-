@@ -1,0 +1,69 @@
+import java.util.*;
+public class Main
+{
+static int n = 5;
+  static int prob[][]={
+    {0,1,0,0,0},
+    {0,1,0,1,0},
+    {0,0,0,1,0},
+    {1,1,1,0,0},
+    {1,0,0,0,0}
+ };
+static int solution[][]={
+    {0,0,0,0,0},
+    {0,0,0,0,0},
+    {0,0,0,0,0},
+    {0,0,0,0,0},
+    {0,0,0,0,0}
+  };
+  
+  public static boolean isValid(int x,int y){
+      if(x<0 || x>=solution.length || y<0 || y>=solution[0].length || solution[x][y]==1 || prob[x][y]==1){
+          return false;
+      }
+      return true;
+  }
+ 
+  static boolean solvemaze(int x,int y,int[][] solution)
+  {
+      
+      if(x==n-1 && y==n-1){
+          solution[x][y]=1;
+          return true;
+      }
+      
+      if(isValid(x,y)){
+          solution[x][y]=1;
+          if(solvemaze(x+1,y,solution)==true){
+             return true; 
+        }
+        
+         if(solvemaze(x-1,y,solution)==true){
+             return true; 
+        }
+        
+         if(solvemaze(x,y+1,solution)==true){
+             return true; 
+        }
+        
+         if(solvemaze(x,y-1,solution)==true){
+             return true; 
+        }
+          
+      }
+      
+    return false;
+  
+  }
+  public static void main(String[] args)
+  {
+        if(!solvemaze(0,0,solution)){
+            System.out.println("no path");
+        }else{
+             for(int i=0;i<n;i++){
+                System.out.println(Arrays.toString(solution[i]));
+            }
+        }
+  }
+     
+}
