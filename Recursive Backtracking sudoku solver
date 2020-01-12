@@ -1,0 +1,109 @@
+import java.util.*;
+
+public class Main {
+
+	public static int[][] arr =  {
+	    
+	        {9,0,0,1,0,0,0,0,5},
+			{0,0,5,0,9,0,2,0,1},
+			{8,0,0,0,4,0,0,0,0},
+			{0,0,0,0,8,0,0,0,0},
+			{0,0,0,7,0,0,0,0,0},
+			{0,0,0,0,2,6,0,0,9},
+			{2,0,0,3,0,0,0,0,6},
+			{0,0,0,2,0,0,9,0,0},
+			{0,0,1,9,0,4,5,7,0},
+                      
+	};
+	
+	public static int[][] board;
+	
+	public static boolean isInRow(int row,int number){
+	    for(int i=0;i<9;i++){
+	        if(board[row][i]==number){
+	            return true;
+	        }
+	    }
+	    
+	    return false;
+	}
+	
+	public static boolean isInCol(int col,int number){
+	    for(int i=0;i<9;i++){
+	        if(board[i][col]==number){
+	            return true;
+	        }
+	    }
+	    
+	    return false;
+	}
+	
+	
+	public static boolean isInBox(int row,int col,int number){
+	    int r=row-row%3;
+	    int c=col-col%3;
+	    
+	    for(int i=r;i<r+3;i++){
+	        for(int j=c;j<c+3;j++){
+	             if(board[i][j]==number){
+	                return true;
+	            }
+	        }
+	    }
+	    
+	    return false;
+	}
+	
+	public static boolean isValid(int row,int col,int number){
+	    return !isInCol(col,number) && !isInRow(row,number) && !isInBox(row,col,number);
+	}
+	
+	
+	public static boolean solve(){
+	    for(int i=0;i<9;i++){
+	        for(int j=0;j<9;j++){
+	            if(board[i][j]==0){
+	                
+	                for(int number=1;number<=9;number++){
+	                    
+	                    if(isValid(i,j,number)){
+	                        board[i][j]=number;
+	                        
+	                        if(solve()){
+	                            return true;
+	                        }else{
+	                            board[i][j]=0;
+	                        }
+	                        
+	                    }
+	                    
+	                }
+	                return false;
+	            }
+	            
+	        }
+	    }
+	    
+	    return true;
+	}
+
+	
+	public static void main(String[] args) {
+        board =new int[9][9];
+        for(int i=0;i<9;i++){
+            for(int j=0;j<9;j++){
+                board[i][j]=arr[i][j];
+            }
+        }
+
+		if (solve()) {
+			System.out.println("Sudoku Grid solved");
+			for(int i=0;i<9;i++){
+			    System.out.println(Arrays.toString(board[i]));
+			}
+		} else {
+			System.out.println("Unsolvable Grid");
+		}
+	}
+
+}
