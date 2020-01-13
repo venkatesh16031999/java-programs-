@@ -1,0 +1,99 @@
+import java.util.*;
+public class Main
+{
+static int n = 5;
+  static int prob[][]={
+    {0,0,0,0,0},
+    {0,0,0,0,0},
+    {0,0,0,0,0},
+    {0,0,0,0,0},
+    {0,0,0,0,0}
+ };
+static int solution[][]={
+    {0,0,0,0,0},
+    {0,0,0,0,0},
+    {0,0,0,0,0},
+    {0,0,0,0,0},
+    {0,0,0,0,0}
+  };
+  
+  public static int path=0;
+  public static int count=0;
+  public static int min=6000;
+  
+  public static boolean isValid(int x,int y){
+      if(x<0 || x>=solution.length || y<0 || y>=solution[0].length || solution[x][y]==1){
+          return false;
+      }
+      return true;
+  }
+ 
+  static boolean solvemaze(int x,int y,int[][] solution)
+  {
+     
+      if(x==n-1 && y==n-1 || x==0 && y==0 || x==0 && y==n-1 || x==n-1 && y==0 ){
+          solution[x][y]=1;
+          
+          if(min>count){
+              min=count;
+              for(int i=0;i<n;i++){
+               for(int j=0;j<n;j++){
+                   prob[i][j]=solution[i][j];
+               }
+            }
+              
+          }
+          
+            path=1;
+          solution[x][y]=0;
+          return false;
+          
+      }
+      
+      if(isValid(x,y)){
+           count++;
+          solution[x][y]=1;
+          
+           if(solvemaze(x,y+1,solution)==true){
+               
+             return true;
+        }
+          
+          if(solvemaze(x+1,y,solution)==true){
+             
+             return true; 
+        }
+        
+         if(solvemaze(x-1,y,solution)==true){
+             return true; 
+        }
+        
+        
+        
+         if(solvemaze(x,y-1,solution)==true){
+             return true; 
+        }
+       count--;
+        solution[x][y]=0;
+          
+      }
+    
+    return false;
+  
+  }
+  public static void main(String[] args)
+  { 
+        solvemaze(4,1,solution);
+        if(path==0){
+            System.out.println("no path");
+        }else{
+             for(int i=0;i<n;i++){
+               for(int j=0;j<n;j++){
+                   System.out.print(prob[i][j]+" ");
+               }
+               System.out.println();
+            }
+        }
+  }
+     
+}
