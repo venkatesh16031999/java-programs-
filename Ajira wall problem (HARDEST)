@@ -1,0 +1,82 @@
+
+import java.util.*;
+
+class Wall{
+    int northWall;
+    int southWall;
+    int eastWall;
+    int westWall;
+    
+    public Wall(int northWall,int southWall,int eastWall,int westWall){
+        this.northWall=northWall;
+        this.southWall=southWall;
+        this.eastWall=eastWall;
+        this.westWall=westWall;
+    }
+    
+}
+
+public class Main
+{
+	public static void main(String[] args) {
+		Scanner scan=new Scanner(System.in);
+		String str=scan.nextLine();
+		int count=0;
+		Wall w=new Wall(0,0,0,0);
+		ArrayList<String> days=new ArrayList<String>();
+		HashMap<String,List<String>> attacks=new HashMap<>();
+		
+		days.addAll(Arrays.asList(str.split(";")));
+		
+		for(int i=0;i<days.size();i++){
+		    String day=days.get(i).substring(0,7).trim();
+
+		    
+		    attacks.put(day,Arrays.asList(days.get(i).substring(7).split(":")));
+		    
+		}
+		
+	    ArrayList<Map.Entry<String,List<String>>> list=new ArrayList<>(attacks.entrySet());
+	    
+	    for(int i=0;i<list.size();i++){
+	        for(int j=0;j<list.get(i).getValue().size();j++){
+	            String entries=list.get(i).getValue().get(j).trim();
+	            int power=Integer.valueOf(entries.substring(13,14));
+	            
+	            if( entries.substring(5,6).equals("W") ){
+	                if( w.westWall < power ){
+	                    count++;
+	                    w.westWall=power;
+	                }
+	            }
+	            
+	            if(entries.substring(5,6).equals("N")){
+	                if( w.northWall < power ){
+	                    count++;
+	                    w.northWall=power;
+	                }
+	            }
+	            
+	            if(entries.substring(5,6).equals("S")){
+	                if( w.southWall < power ){
+	                    count++;
+	                    w.southWall=power;
+	                }
+	            }
+	            
+	            if(entries.substring(5,6).equals("E")){
+	                if( w.eastWall < power ){
+	                    count++;
+	                    w.eastWall=power;
+	                }
+	            }
+	           
+	        }
+	       
+	    }
+	    
+	    System.out.println(count);
+		
+		
+	}
+}
