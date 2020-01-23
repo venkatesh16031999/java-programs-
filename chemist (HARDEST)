@@ -1,0 +1,52 @@
+import java.util.*;
+
+public class Main{
+    
+    public static HashMap<String,List<String>> map=new HashMap<>();
+    
+    public static void findMinimumBowls(String[] arr,HashSet<String> set){
+        
+        for(int i=0;i<arr.length;i++){
+            String str=arr[i].split("=")[0].trim();
+            map.put(str,Arrays.asList(arr[i].split("=")[1].split("\\+")));
+        }
+        ArrayList<String> list=new ArrayList<>();
+        list.addAll(set);
+        int count=0;
+        for(int i=0;i<list.size();i++){
+            String com=list.get(i);
+             
+            if(map.containsKey(com)){
+               count=1;
+                for(int j=0;j<map.get(com).size();j++){
+                    if(map.containsKey(map.get(com).get(j).trim())){
+                        count++;
+                    }
+                }
+                System.out.println(count);
+            }
+            
+            
+        }
+        
+    }
+    
+    public static void main(String args[]){
+        Scanner scan=new Scanner(System.in);
+        int n1=scan.nextInt();
+        scan.nextLine();
+        String arr[]=new String[n1];
+        for(int i=0;i<n1;i++){
+            arr[i]=scan.nextLine();
+        }
+        int n2=scan.nextInt();
+         scan.nextLine();
+         HashSet<String> set=new HashSet<>();
+         for(int i=0;i<n2;i++){
+           set.add(scan.nextLine());
+        }
+        
+        findMinimumBowls(arr,set);
+        
+    }
+}
