@@ -1,0 +1,123 @@
+import java.util.*;
+
+class Shop{
+    int shop1;
+    int shop2;
+    int shop3;
+    int shop4;
+    int shop5;
+    
+    public Shop(int shop1,int shop2,int shop3,int shop4,int shop5){
+        this.shop1=shop1;
+        this.shop2=shop2;
+        this.shop3=shop3;
+        this.shop4=shop4;
+        this.shop5=shop5;
+    }
+    
+}
+
+public class Main{
+    
+    public static HashMap<String,Shop> days=new HashMap<>();
+    
+    public static double checkAmount(int unit){
+        
+        if(unit<=999){
+            return unit*(0.40);
+        }
+        
+        if(unit<=2000 && unit>=1000){
+            return unit*(0.33);
+        }
+        
+         if(unit<=5000 && unit>=2001){
+            return unit*(0.30);
+        }
+        
+        return unit;
+    }
+    
+    public static void getList(String date,int shop1,int shop2,int shop3,int shop4,int shop5){
+        
+      
+        
+        if(!days.containsKey(date)){
+            days.put(date,new Shop(shop1,shop2,shop3,shop4,shop5));
+        }
+        
+    }
+    
+    public static void calculateBill(String Day){
+        
+        ArrayList<String> daylist=new ArrayList<>();
+        String date="";
+        try{
+        date=Day.split(":")[0];
+        daylist.addAll(Arrays.asList( Day.split(":")[1].split("\\$") ));
+        }catch(Exception e){
+            
+        }
+        
+        if(!daylist.isEmpty()){
+            int shop1=0,shop2=0,shop3=0,shop4=0,shop5=0;
+            for(int i=0;i<daylist.size();i++){
+                
+                if(daylist.get(i).trim().split(" ")[0].equals("shop1")){
+                    shop1+=Integer.valueOf(daylist.get(i).trim().split(" ")[1]);
+                }
+                
+                if(daylist.get(i).trim().split(" ")[0].equals("shop2")){
+                    shop2+=Integer.valueOf(daylist.get(i).trim().split(" ")[1]);
+                }
+                
+                if(daylist.get(i).trim().split(" ")[0].equals("shop3")){
+                    shop3+=Integer.valueOf(daylist.get(i).trim().split(" ")[1]);
+                }
+                
+                if(daylist.get(i).trim().split(" ")[0].equals("shop4")){
+                    shop4+=Integer.valueOf(daylist.get(i).trim().split(" ")[1]);
+                }
+                
+                if(daylist.get(i).trim().split(" ")[0].equals("shop5")){
+                    shop5+=Integer.valueOf(daylist.get(i).trim().split(" ")[1]);
+                }
+                
+            }
+            
+            getList(date,shop1,shop2,shop3,shop4,shop5);
+            
+        }
+    }
+    
+    public static void main(String args[]){
+        Scanner scan=new Scanner(System.in);
+        int noOfEntries=scan.nextInt();
+        scan.nextLine();
+        for(int i=0;i<noOfEntries;i++){
+            calculateBill(scan.nextLine());
+        }
+        
+        Iterator<Map.Entry<String,Shop>> itr=days.entrySet().iterator();
+        int shop1=0,shop2=0,shop3=0,shop4=0,shop5=0;
+        while(itr.hasNext()){
+            Map.Entry temp=(Map.Entry)itr.next();
+            Shop values=(Shop)temp.getValue();
+                shop1+=values.shop1;
+                shop2+=values.shop2;
+                shop3+=values.shop3;
+                shop4+=values.shop4;
+                shop5+=values.shop5;
+
+        }
+        
+       double shop1Rate=checkAmount(shop1);
+       double shop2Rate=checkAmount(shop2);
+       double shop3Rate=checkAmount(shop3);
+       double shop4Rate=checkAmount(shop4);
+       double shop5Rate=checkAmount(shop5);
+        
+        System.out.printf("shop1:%.2f\nshop2:%.2f\nshop3:%.2f\nshop4:%.2f\nshop5:%.2f",shop1Rate,shop2Rate,shop3Rate,shop4Rate,shop5Rate);
+        
+    }
+}
