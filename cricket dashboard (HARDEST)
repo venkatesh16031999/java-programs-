@@ -1,0 +1,85 @@
+import java.util.*;
+
+class Dashboard{
+    HashMap<String,Integer> playerscore=new HashMap<>();
+    String strick="p1";
+    String nonStrick="p2";
+    int total=0;
+    int overs=0;
+    int extra=0;
+    int wickets=0;
+    int remainingPlayers=10;
+    
+}
+
+public class Main{
+    public static Dashboard board=new Dashboard();
+    public static void calculateRun(String entry){
+     board.overs=entry.length();
+     ArrayList<String> player=new ArrayList<>();
+     player.add(board.strick);
+     player.add(board.nonStrick);
+     boolean play=true;
+     int playerindicator=0;
+     int ball=0;
+     for(int i=0;i<entry.length();i++){
+        ball++;
+         if(entry.charAt(i)=='1' || entry.charAt(i)=='3' || ball==7 || ball==13 || ball==19 ){
+             play=!play;
+             if(play==true){
+                 playerindicator=0;
+             }else{
+                 playerindicator=1;
+             }
+              
+         }
+         
+        if(entry.charAt(i)=='.'){
+             continue;
+         }
+         
+         if(entry.charAt(i)=='1' || entry.charAt(i)=='2' || entry.charAt(i)=='3'
+         || entry.charAt(i)=='4' || entry.charAt(i)=='6'){
+             board.total+=Integer.valueOf(String.valueOf(entry.charAt(i)));
+             if( board.playerscore.containsKey(player.get(playerindicator)) ){
+                 
+                 int value=board.playerscore.get(player.get(playerindicator))+
+                 Integer.valueOf(String.valueOf(entry.charAt(i)));
+                 
+                 board.playerscore.replace( player.get(playerindicator) , value );
+             }else{
+                 board.playerscore.put(player.get(playerindicator),
+                 Integer.valueOf(String.valueOf(entry.charAt(i))));
+             }
+              
+         }
+         
+         System.out.println(player.get(playerindicator));
+        System.out.println(i+1+"-->"+board.playerscore);
+        System.out.println(ball);
+         
+         
+         
+         if(entry.charAt(i)=='W'){
+             board.extra+=Integer.valueOf(entry.charAt(i));
+         }
+         
+         if(entry.charAt(i)=='O'){
+             board.wickets++;
+             board.remainingPlayers--;
+         }
+         
+     }
+        
+    }
+    
+    public static void main(String args[]){
+        Scanner scan=new Scanner(System.in);
+        String query=scan.nextLine();
+        calculateRun(query);
+       
+        System.out.println("\nStrike –"+board.strick+
+        "\nNon-Strike-"+board.nonStrick+"\nTotal-"+board.total+"\nOvers-"+board.overs+"\nExtra-"+board.extra+"\nWicket(s)-"+board.wickets+
+        "\nRemaining Wickets(s)-"+board.remainingPlayers);
+    }
+}
