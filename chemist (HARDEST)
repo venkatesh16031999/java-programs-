@@ -1,3 +1,5 @@
+
+  
 import java.util.*;
 
 public class Main{
@@ -12,22 +14,27 @@ public class Main{
         }
         ArrayList<String> list=new ArrayList<>();
         list.addAll(set);
-        int count=0;
+        HashSet<String> comp =new HashSet<>();
         for(int i=0;i<list.size();i++){
-            String com=list.get(i);
+            String com=list.get(i).trim();
              
             if(map.containsKey(com)){
-               count=1;
                 for(int j=0;j<map.get(com).size();j++){
                     if(map.containsKey(map.get(com).get(j).trim())){
-                        count++;
+                    	comp.add(com);
+                    	for(int k=0;k<map.get(com).size();k++) {
+                    		if(map.containsKey(map.get(com).get(k).trim())) {
+                    			comp.add(map.get(com).get(k).trim());
+                    		}
+                    	}
                     }
                 }
-                System.out.println(count);
+                
             }
-            
-            
+  
         }
+        System.out.println(comp.size());
+        
         
     }
     
