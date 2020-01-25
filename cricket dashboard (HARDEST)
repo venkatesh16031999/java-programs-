@@ -1,85 +1,112 @@
 import java.util.*;
 
 class Dashboard{
-    HashMap<String,Integer> playerscore=new HashMap<>();
-    String strick="p1";
-    String nonStrick="p2";
-    int total=0;
-    int overs=0;
-    int extra=0;
-    int wickets=0;
-    int remainingPlayers=10;
-    
+    LinkedHashMap<Integer,Integer> players=new LinkedHashMap<>();
+    String strike;
+    String nonStrike;
+    int total;
+    int overs;
+    int extra;
+    int wickets;
+    int remainingWickets=10;
 }
 
-public class Main{
-    public static Dashboard board=new Dashboard();
+class Main{
+    
+    public static Dashboard d=new Dashboard();
+    public static int wicketcount=2;
+    
+    public static int[] swap(int[] arr){
+        int temp=arr[0];
+        arr[0]=arr[1];
+        arr[1]=temp;
+        
+        return arr;
+    }
+    
     public static void calculateRun(String entry){
-     board.overs=entry.length();
-     ArrayList<String> player=new ArrayList<>();
-     player.add(board.strick);
-     player.add(board.nonStrick);
-     boolean play=true;
-     int playerindicator=0;
-     int ball=0;
-     for(int i=0;i<entry.length();i++){
-        ball++;
-         if(entry.charAt(i)=='1' || entry.charAt(i)=='3' || ball==7 || ball==13 || ball==19 ){
-             play=!play;
-             if(play==true){
-                 playerindicator=0;
-             }else{
-                 playerindicator=1;
-             }
-              
-         }
-         
-        if(entry.charAt(i)=='.'){
-             continue;
-         }
-         
-         if(entry.charAt(i)=='1' || entry.charAt(i)=='2' || entry.charAt(i)=='3'
-         || entry.charAt(i)=='4' || entry.charAt(i)=='6'){
-             board.total+=Integer.valueOf(String.valueOf(entry.charAt(i)));
-             if( board.playerscore.containsKey(player.get(playerindicator)) ){
-                 
-                 int value=board.playerscore.get(player.get(playerindicator))+
-                 Integer.valueOf(String.valueOf(entry.charAt(i)));
-                 
-                 board.playerscore.replace( player.get(playerindicator) , value );
-             }else{
-                 board.playerscore.put(player.get(playerindicator),
-                 Integer.valueOf(String.valueOf(entry.charAt(i))));
-             }
-              
-         }
-         
-         System.out.println(player.get(playerindicator));
-        System.out.println(i+1+"-->"+board.playerscore);
-        System.out.println(ball);
-         
-         
-         
-         if(entry.charAt(i)=='W'){
-             board.extra+=Integer.valueOf(entry.charAt(i));
-         }
-         
-         if(entry.charAt(i)=='O'){
-             board.wickets++;
-             board.remainingPlayers--;
-         }
-         
-     }
+        d.overs=entry.length()/6;
+        int swaprun=0;
+        int arr[]=new int[2];
+        int wic=0;
+        arr[0]=1;
+        arr[1]=2;
+        int ball=0;
+        for(int i=0;i<entry.length();i++){
+            if(entry.charAt(i)!='W'){
+                ball++;
+            }
+            
+            if(entry.charAt(i)=='W'){
+                d.extra++;
+                continue;
+            }
+            
+            if(entry.charAt(i)=='.'){
+                if(ball%6==0){
+                arr=swap(arr);
+                 }
+                continue;
+            }
+            
+           if(entry.charAt(i)=='O'){
+                arr[0]=Math.max(arr[0],arr[1])+1;
+                d.remainingWickets--;
+                d.wickets++;
+                wicketcount++;
+                 if(ball%6==0){
+                arr=swap(arr);
+                 }
+                continue;
+            }
+            
+            
+            
+            if( entry.charAt(i)!='O' &&  Integer.valueOf(String.valueOf(entry.charAt(i)))%2==1  ){
+                int value=d.players.get(arr[0])+Integer.valueOf(String.valueOf(entry.charAt(i)));
+                d.players.replace(arr[0],value);
+                swaprun=1;
+                arr=swap(arr);
+            }
+            
+             if( entry.charAt(i)!='O' && Integer.valueOf(String.valueOf(entry.charAt(i)))%2==0 ){
+                int value=d.players.get(arr[0])+Integer.valueOf(String.valueOf(entry.charAt(i)));
+                d.players.replace(arr[0],value);
+            }
+            
+            if(ball%6==0){
+                arr=swap(arr);
+            }
+            
+        }
+        
+        d.strike="p"+String.valueOf(arr[0]);
+        d.nonStrike="p"+String.valueOf(arr[1]);
         
     }
     
     public static void main(String args[]){
+        d.players.put(1,0);
+        d.players.put(2,0);
+        d.players.put(3,0);
+        d.players.put(4,0);
+        d.players.put(5,0);
+        d.players.put(6,0);
+        d.players.put(7,0);
+        d.players.put(8,0);
+        d.players.put(9,0);
+        d.players.put(10,0);
+        d.players.put(11,0);
         Scanner scan=new Scanner(System.in);
-        String query=scan.nextLine();
-        calculateRun(query);
-       
-        System.out.println("\nStrike –"+board.strick+
-        "\nNon-Strike-"+board.nonStrick+"\nTotal-"+board.total+"\nOvers-"+board.overs+"\nExtra-"+board.extra+"\nWicket(s)-"+board.wickets+
-        "\nRemaining Wickets(s)-"+board.remainingPlayers);
+        String entry=scan.nextLine();
+        calculateRun(entry);
+            int total=0;
+           for(int i=1;i<=wicketcount;i++){
+                System.out.println("p"+i+" - "+d.players.get(i));
+                total+=d.players.get(i);
+            }
+            total+=d.extra;
+            System.out.println("Strike – "+d.strike+"\nNon-Strike-"+d.nonStrike+"\nTotal-"+total+"\nOvers-"+d.overs+"\nExtra-"+d.extra+"\nWicket(s)-"+d.wickets+"\nRemaining Wickets(s)-"+d.remainingWickets);
+            
     }
 }
