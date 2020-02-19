@@ -1,0 +1,41 @@
+import java.util.*;
+public class Main
+{
+    
+    public static boolean noconsecutive(String str){
+        
+        for(int i=0;i<str.length();i++){
+            if(str.charAt(i)=='v' && str.charAt(i+1)=='v'){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public static void per(char data[],String str,int index,int last){
+         if(index==4){
+            if(true){
+                System.out.println(new String(data));
+            }
+            return;
+        }
+        
+        for(int i=0;i<last;i++){
+            
+            data[index]=str.charAt(i);
+            per(data,str,index+1,last);
+        }
+    }
+    
+    public static void find(String str){
+        int length=str.length();
+        char data[]=new char[5];
+        
+        per(data,str,0,length);
+    }
+    
+	public static void main(String[] args) {
+		String str="cv";
+		find(str);
+	}
+}
