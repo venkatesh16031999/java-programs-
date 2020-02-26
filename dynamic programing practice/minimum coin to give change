@@ -14,7 +14,7 @@ public class Main
     }
     
         int n3=0;
-         for(int i=0;i<arr.length;i++){
+         for(int i=index;i<arr.length;i++){
               n3=1+find(arr,index+1,total+arr[i],count+1);
          }
          
