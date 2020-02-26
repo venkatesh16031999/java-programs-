@@ -1,0 +1,31 @@
+import java.util.*;
+public class Main
+{
+    public static int[] dp;
+    public static int min=6000;
+    public static int find(int arr[],int index,int total,int count){
+        
+    if(index==arr.length){
+        return 0;
+    }
+    
+    if(total==12){
+        System.out.println(count);
+    }
+    
+        int n3=0;
+         for(int i=0;i<arr.length;i++){
+              n3=1+find(arr,index+1,total+arr[i],count+1);
+         }
+         
+        return n3;
+
+    }
+    
+	public static void main(String[] args) {
+		int arr[]={9,1,2,3,4,12};
+		dp=new int[arr.length];
+		find(arr,0,0,0);
+		
+	}
+}
