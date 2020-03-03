@@ -1,0 +1,119 @@
+import java.util.*;
+
+class Heap{
+    public int[] heap;
+    public int size;
+    
+    public Heap(int value){
+      heap=new int[value];
+    }
+    
+    public void insert(int value){
+        if(isFull()){
+            System.out.println("Full");
+        }else{
+            heap[size]=value;
+            fixAbove(size);
+            size++;
+        }
+    }
+    
+    public int delete(int index){
+        if(isEmpty()){
+            System.out.println("Empty");
+            return -1;
+        }else{
+            
+            int deletevalue=heap[index];
+            heap[index]=heap[size-1];
+            if(index==0 || heap[index] < heap[getParent(index)]){
+                fixBelow(index,size-1);
+            }else{
+                fixAbove(index);
+            }
+            size--;
+            return deletevalue;
+        }
+    }
+    
+    public int getParent(int index){
+        return (index-1)/2;
+    }
+    
+    public int getLeft(int index){
+        return (2*index)+1;
+    }
+    
+    public int getRight(int index){
+        return (2*index)+2;
+    }
+    
+    public boolean isFull(){
+        return size==heap.length;
+    }
+    
+    public boolean isEmpty(){
+        return size==0;
+    }
+    
+    public int peek(){
+        return heap[0];
+    }
+    
+    public void fixAbove(int index){
+        int newvalue=heap[index];
+        
+        while(index>0 && heap[index] > heap[getParent(index)]){
+            heap[index]=heap[getParent(index)];
+            index=getParent(index);
+        }
+        
+        heap[index]=newvalue;
+    }
+    
+    public void fixBelow(int index,int lastindex){
+        int swapper=0;
+        while(index<=lastindex){
+            int left=getLeft(index);
+            int right=getRight(index);
+            if(left<=lastindex){
+                
+                if(right>lastindex){
+                    swapper=left;
+                }else if(right<=lastindex){
+                    swapper=(heap[left]>heap[right]) ? left : right;
+                }
+                
+                int temp=heap[index];
+                heap[index]=heap[swapper];
+                heap[swapper]=temp;
+                
+            }else{
+                break;
+            }
+            index=swapper;
+        }
+        
+    }
+    
+    public void printHeap(){
+        for(int i=0;i<size;i++){
+            System.out.print(heap[i]+" ");
+        }
+    }
+    
+}
+
+public class Main
+{
+	public static void main(String[] args) {
+		Heap heap=new Heap(10);
+		heap.insert(12);
+		heap.insert(44);
+		heap.insert(1);
+		
+		heap.printHeap();
+		System.out.println("\n"+heap.delete(1)+" ");
+			heap.printHeap();
+	}
+}
