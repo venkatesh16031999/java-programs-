@@ -1,0 +1,279 @@
+import java.util.*;
+
+class Node{
+    
+   public int data;
+   private Node next;
+	private Node previous;
+    
+    public Node(int data){
+        this.data=data;
+    }
+    
+    public Node getNext() { return this.next; }
+	
+	public void setNext(Node next) { this.next=next; }
+	
+	public Node getPrevious() { return previous; }
+
+	public void setPrevious(Node previous) { this.previous = previous; }
+    
+}
+
+class DoublyLinkedList{
+    
+    public Node head;
+    public Node tail;
+    public int size;
+    
+    
+    public void addToFront(int value){
+        
+        Node newnode=new Node(value);
+        
+        if(head==null){
+           tail=newnode; 
+        }else{
+            newnode.setNext(head);
+            head.setPrevious(newnode);
+        }
+        
+        head=newnode;
+        size++;
+    }
+    
+       public void addToEnd(int value){
+        
+        Node newnode=new Node(value);
+        
+        if(tail==null){
+           head=newnode; 
+        }else{
+            newnode.setPrevious(tail);
+            tail.setNext(newnode);
+        }
+        
+        tail=newnode;
+        size++;
+    }
+    
+    public int removeFromFront(){
+        if(head==null){
+            return -1;
+        }
+        
+        Node remove=head;
+        
+        if(head.getNext()==null){
+            tail=null;
+        }else{
+            head.getNext().setPrevious(null);
+        }
+        
+        head=head.getNext();
+        remove.setNext(null);
+        size--;
+        return remove.data;
+    }
+    
+    public void print(){
+        Node cur=head;
+        while(cur!=null){
+            System.out.print(cur.data+" ");
+            cur=cur.getNext();
+        }
+    }
+    
+    public void addBefore(int value,int existingvalue){
+        
+        if(head==null && tail==null){
+            return;
+        }
+        Node cur=head;
+        while( cur!=null && cur.data!=existingvalue ){
+            cur=cur.getNext();
+        }
+        
+        if(cur==null){
+            return;
+        }
+        
+        Node newnode=new Node(value);
+        
+        newnode.setNext(cur);
+        newnode.setPrevious(cur.getPrevious());
+        cur.setPrevious(newnode);
+        
+        if(cur==head){
+           head=newnode; 
+        }else{
+            newnode.getPrevious().setNext(newnode);
+        }
+        
+        size++;
+        
+    }
+    
+    public void remove(int value){
+        
+        if(head==null && tail==null){
+            return;
+        }
+        
+        Node cur =head;
+        
+        while(cur!=null && cur.data!=value){
+            cur=cur.getNext();
+        }
+        
+        
+        
+        if(cur==null){
+            return;
+        }
+        
+        Node remove=cur;
+        
+        if(cur!=null && cur!=head && cur!=tail){
+            cur.getPrevious().setNext(cur.getNext());
+            cur.getNext().setPrevious(cur.getPrevious());
+            cur=null;
+        }
+        
+       else if(cur==head && cur.getNext()!=null){
+            
+            head=cur.getNext();
+            head.getPrevious().setNext(null);
+            head.setPrevious(null);
+        }
+        
+        else if( (cur==head && cur.getNext()==null) || (cur==tail && cur.getPrevious()==null) ){
+            head=null;
+            tail=null;
+        }
+        
+       else if(cur==tail && cur.getPrevious()!=null){
+            tail=cur.getPrevious();
+            tail.getNext().setPrevious(null);
+            tail.setNext(null);
+        }
+        
+      
+        
+        size--;
+        remove=null;
+    }
+
+	public void splitOnOdd(){
+        
+        if(head==null || head.getNext()==null){
+            return;
+        }
+        
+        Node cur=head.getNext();
+        
+        while( cur.getNext()!=null && cur.getNext().getNext()!=null){
+           System.out.println(cur.data);
+           cur=cur.getNext().getNext();
+          if(cur.getNext()==null){
+              System.out.println(cur.data);
+          }
+        }
+        
+    }
+	
+	
+	public void sorted(){
+        
+        
+        int data=0;
+        int swap=1;
+        while(swap==1){
+            Node cur1=head;
+            swap=0;
+            while(cur1!=null && cur1.getNext()!=null){
+                if(cur1.data>cur1.getNext().data){
+                    data=cur1.data;
+                    cur1.data=cur1.getNext().data;
+                    cur1.getNext().data=data;
+                    swap=1;
+                }
+                cur1=cur1.getNext();
+            }
+        }
+        
+    }
+    
+    
+    public void reverseOnK(int value){
+        
+        if(head==null && tail==null && size<value){
+            return;
+        }
+        
+        Node cur=head;
+        int gcount=0;
+        int count=0;
+        int pcount=0;
+        Node pre=null;
+        while(gcount!=size){
+            count=0;
+            pcount=0;
+            while(cur!=null && count!=value){
+                pre=cur;
+                cur=cur.getNext();
+                count++;
+                gcount++;
+                pcount++;
+            }
+            
+            while(pre!=null && pcount!=0){
+                System.out.print(pre.data+" ");
+                pre=pre.getPrevious();
+                pcount--;
+            }
+        }
+        
+    }
+	
+    
+}
+
+
+public class Main
+{
+	public static void main(String[] args) {
+		DoublyLinkedList dl=new DoublyLinkedList();
+		
+// 		dl.addToFront(9);
+// 		dl.addToFront(11);
+// 		dl.addToFront(12);
+// 		dl.addToFront(44);
+// 		dl.addToFront(14);
+// 		dl.addToFront(15);
+        dl.addToEnd(1); 
+        dl.addToEnd(2);
+        dl.addToEnd(3);
+        dl.addToEnd(4);
+        dl.addToEnd(5);
+        dl.addToEnd(6);
+        dl.addToEnd(7);
+        dl.addToEnd(8);
+        dl.addToEnd(9);
+        dl.addToEnd(10);
+        	
+// 		dl.print();
+// 		System.out.println();
+// 	    System.out.println("Removed data : "+	dl.removeFromFront());
+// 		dl.print();
+// 		dl.addBefore(1,9);
+// 		System.out.println();
+// 		dl.print();
+// 		dl.remove(44);
+        System.out.println("Reversed on K value : ");
+        dl.reverseOnK(4);
+        System.out.println("\nAll Values : ");
+		dl.print();
+		
+	}
+}
