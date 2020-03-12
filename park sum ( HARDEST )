@@ -1,0 +1,82 @@
+import java.util.*;
+
+
+public class Main
+{
+	public static void main(String[] args) {
+		
+		Scanner scan=new Scanner(System.in);
+		
+		int n=scan.nextInt();
+		int m=scan.nextInt();
+		int q=scan.nextInt();
+		int p=scan.nextInt();
+		int r=scan.nextInt();
+		int k=scan.nextInt();
+		
+		int time=k;
+		int ncars=0;
+		int done=0;
+		
+		int count=0;
+		
+		int bal=0;
+		
+		Queue<Integer> q=new LinkedList<>();
+		
+            for(int i=1;i<=k;i++){
+                
+                
+                
+                if (i%r==0){
+                    m--;
+                    q++;
+                }
+                
+                if(q>=n && i%p==0 && bal==0){
+                    q=q-n;
+                    time-=n;
+                    done+=n;
+                    ncars=0;
+                }
+                
+                if(n>q && q!=0 && bal==0){
+                    bal=Math.abs( q-n );
+                    q=0;
+                    time-=n;
+                    done+=n;
+                    ncars=0;
+                    continue;
+                }
+               
+                if(bal!=0 && q!=0){
+                    
+                    int count=0;
+                    while(count!=q){
+                       qu.offer(i+n); 
+                    }
+                    bal=Math.abs(bal-q);
+                    
+                } 
+                
+                if(i==k){
+                    if(time>0){
+                        time=0;
+                        if(q>=n){
+                            ncars=0;
+                            q-=n;
+                        }else{
+                            ncars=Math.abs(n-q);
+                            q=0;
+                        }
+                        
+                    }
+                }
+                
+            }
+		
+		
+		System.out.println(ncars+" "+done+" "+m+" "+q);
+		
+	}
+}
