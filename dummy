@@ -1,0 +1,179 @@
+
+import java.util.*;
+
+
+class Containers{
+    
+    String name;
+    int need;
+    int capacity;
+    int balance;
+    
+    public Containers(String name,int need,int capacity){
+        this.name=name;
+        this.need=need;
+        this.capacity=capacity;
+    }
+    
+}
+
+public class Main{
+    
+    public static HashMap<String,Containers> map=new HashMap<>();
+    public static ArrayList<ArrayList<String>> list=new ArrayList<>();
+    public static int total=0;
+    public static  void createConmtainers(String str){
+        
+        String arr[]=str.split(" ");
+        
+        map.put(arr[0].trim(),new Containers(arr[0].trim(),Integer.valueOf(arr[1].trim()),Integer.valueOf(arr[2].trim())));
+        
+    }
+    
+    public static void getConnection(String str){
+        ArrayList<String> li=new ArrayList<>();
+        int flag=0;
+            String arr[]=str.split("_");
+            
+            if(arr.length==2){
+                
+                
+            if(arr[0].equals("F")){
+                flag=1;
+                li.add(arr[1]);
+            }else{
+            
+                for(int i=0;i<list.size();i++){
+                    if(list.get(i).contains(arr[0])){
+                        list.get(i).add(arr[1]);
+                    }
+                }
+                
+            }
+                
+            if(flag==1){
+                list.add(li);
+            }
+                
+            }
+    }
+    
+    public static void fillWater(){
+        
+           for(int i=0;i<list.size();i++){
+                  for(int j=0;j<list.get(i).size();j++){
+                      total+=map.get(list.get(i).get(j)).capacity;
+                      map.get(list.get(i).get(j)).balance=map.get(list.get(i).get(j)).capacity;
+                  }  
+            }
+            
+            System.out.println(total);
+        
+    }
+    
+    public static void checkWater(int days){
+        
+        int pp=days;
+        
+        while(true){
+            
+            ArrayList<String> checker = new ArrayList<>();
+          for(int i=0;i<list.size();i++){
+              
+              String str="";
+                  for(int j=0;j<list.get(i).size();j++){
+                     
+                     map.get(list.get(i).get(j)).balance-=map.get(list.get(i).get(j)).need;
+                     
+                     if(map.get(list.get(i).get(j)).balance<map.get(list.get(i).get(j)).need){
+                         
+                        str=list.get(i).get(j);
+                        
+                     }
+                     
+                  }  
+                  checker.add(str);
+                  	System.out.println("empty tanks : "+checker);
+            }  
+            
+            pp--;
+            if(pp==0){
+                break;
+            }
+            
+            reFill(checker);
+            
+        }
+        
+        
+    }
+    
+    public static void reFill(ArrayList<String> checker){
+        
+       
+            
+            for(int j=0;j<checker.size();j++){
+             
+                 for(int i=0;i<list.size();i++){
+                     
+                     if( list.get(i).contains(checker.get(j)) ){
+                         
+                         for(int k=0;k<list.get(i).size();k++){
+                             
+                             total+=map.get(list.get(i).get(k)).capacity;
+                             
+                             if(list.get(i).get(k)==checker.get(j)){
+                                 break;
+                             }
+                             
+                             
+                             
+                         }
+                         
+                     }
+                     
+                 }
+                  
+            }
+            System.out.println("refilled rate : "+total);
+        
+        
+    }
+    
+	public static void main(String[] args) {
+		Scanner scan=new Scanner(System.in);
+		int days=scan.nextInt();
+		
+		int c=scan.nextInt();
+		scan.nextLine();
+		
+		long start=System.nanoTime();
+		
+		for(int i=0;i<c;i++){
+		    createConmtainers(scan.nextLine());
+		}
+		
+		int p=scan.nextInt();
+		scan.nextLine();
+		for(int i=0;i<p;i++){
+		    
+		    getConnection(scan.nextLine());
+		    
+		}
+		
+		fillWater();
+		checkWater(days);
+		
+		System.out.println(total);
+		
+		long end=System.nanoTime();
+		
+		System.out.println(list);
+		
+		System.out.println((end-start)/1e+9);
+		
+	}
+}
+
+
+
