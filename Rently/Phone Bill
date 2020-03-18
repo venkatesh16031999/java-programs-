@@ -1,0 +1,113 @@
+//Test case 1:
+
+// Input :
+// 00:01:07,400-234-090\n00:05:01,701-080-080\n00:05:00,400-234-090
+// Output :
+// 900
+
+// Test case 2:
+
+// Input :
+// 00:05:17,959-720-018 00:19:38,750-222-197 00:14:21,959-720-018 00:17:01,892-545-277
+// Output : 
+// 5850
+
+// Test case 3:
+
+// Input :
+// 00:04:59,959-720-018 00:05:00,750-222-197 00:15:31,892-545-277
+// Output:
+// 1647
+
+// Test case 4:
+
+// Input : 
+// 00:05:17,959-720-018 00:03:00,959-720-018 00:04:59,959-720-018
+// Output : 
+// 0
+
+
+
+import java.util.*;
+
+class Phonebook{
+    int totalTime;
+    int amount;
+    int number;
+    
+    public Phonebook(int totalTime,int amount,int number){
+        this.totalTime=totalTime;
+        this.amount=amount;
+        this.number=number;
+    }
+}
+
+public class Main {
+    
+    public static HashMap<Integer,Phonebook> book=new HashMap<>();
+    
+    public static int calculateBill(int totalSecs){
+        
+        if(totalSecs<300){
+            
+            return (totalSecs*3);
+        }else{
+            int amount=0;
+            int min=totalSecs/60;
+            int secs=(totalSecs%60)%60;
+            amount=min*150;
+            if(secs>0){
+                amount=amount+150;
+            }
+            return amount;   
+        }
+    }
+    
+    public static void getContact(String entry){
+        
+        int totalSecs=0;
+        int number=Integer.valueOf(entry.split(",")[1].trim().replaceAll("-",""));
+        int hr=Integer.valueOf(entry.split(",")[0].trim().substring(0,2));
+        int min=Integer.valueOf(entry.split(",")[0].trim().substring(3,5));
+        int sec=Integer.valueOf(entry.split(",")[0].trim().substring(6,8));
+         totalSecs+=(hr*60*60)+(min*60)+sec;
+        int amount=calculateBill(totalSecs);
+        
+        if(book.containsKey(number)){
+            int rateAddtion=book.get(number).amount+amount;
+            book.get(number).amount=rateAddtion;
+        }else{
+            book.put(number,new Phonebook(totalSecs,amount,number));
+        }
+    }
+    
+    public static void main(String[] args) {
+       Scanner scan=new Scanner(System.in);
+       
+       while(true){
+           try{
+               getContact(scan.nextLine());
+           }catch(Exception e){
+               break;
+           }
+       }
+       
+       ArrayList<Map.Entry<Integer,Phonebook>> booklist=new ArrayList<>(book.entrySet()); 
+       
+       Collections.sort(booklist,(l1,l2)->{
+           if(l1.getValue().amount==l2.getValue().amount){
+               return (int)l1.getValue().number-l2.getValue().number;
+           }else{
+               return (int)l2.getValue().totalTime-l1.getValue().totalTime;
+           }
+       });
+       
+        booklist.remove(0);
+       int total=0;
+       for(int i=0;i<booklist.size();i++){
+           total+=booklist.get(i).getValue().amount;
+       }
+       
+      System.out.println("Bill : "+total);
+    }
+}
