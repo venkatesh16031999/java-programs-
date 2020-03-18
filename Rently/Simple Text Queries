@@ -1,0 +1,51 @@
+import java.util.*;
+import java.util.concurrent.TimeUnit; 
+  
+public class Code { 
+    
+    public static void rently(ArrayList<String> sentence,ArrayList<String> queries){
+        
+    	long startTime = System.nanoTime();
+    	
+        for(int i=0;i<queries.size();i++){
+            int flag=0;
+            for(int j=0;j<sentence.size();j++){
+                HashSet<String> set=new HashSet<>(Arrays.asList(sentence.get(j).split(" ")));
+                    if(set.containsAll(Arrays.asList(queries.get(i).split(" ")))){
+                         System.out.print(j+" "); 
+                         flag=1;
+                    }   
+            }
+            if(flag==0){
+                System.out.print(-1+" ");
+            }
+                System.out.println();
+        }
+        long endTime   = System.nanoTime();
+        
+        long totalTime = endTime - startTime;
+        System.out.println("Execution time : "+totalTime);
+        
+    }
+    
+    public static void main(String[] args)
+    { 
+    
+    	Scanner scan=new Scanner(System.in);
+    	int sen=scan.nextInt();
+    	int que=scan.nextInt();
+    	ArrayList<String> sentence=new ArrayList<>();
+    	scan.nextLine();
+    	for(int i=0;i<sen;i++) {
+    		sentence.add(scan.nextLine());
+    	}
+    	
+    	ArrayList<String> queries=new ArrayList<>();
+    	for(int i=0;i<que;i++) {
+    		queries.add(scan.nextLine());
+    	}
+    	
+    	rently(sentence,queries);
+    	
+    } 
+}
