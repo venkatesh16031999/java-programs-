@@ -1,0 +1,103 @@
+class Node{
+    public int data;
+    public Node next;
+    
+    public Node(int value){
+        this.data=value;
+    }
+    
+}
+
+class LL{
+    
+    Node head;
+    Node tail;
+    
+    public void add(int value){
+        Node newnode=new Node(value);
+        if(head==null){
+            head=newnode;
+            tail=newnode;
+        }else{
+            tail.next=newnode;
+            tail=tail.next;
+        }
+    }
+    
+    public void print(Node node){
+        
+        Node cur=node;
+        
+        while(cur!=null){
+            System.out.print(cur.data+" ");
+            cur=cur.next;
+        }
+        
+    }
+    
+    public Node reverse(Node node){
+        
+        Node cur=node;
+        Node prev=null;
+        Node next=null;
+        
+        while(cur!=null){
+            next=cur.next;
+            cur.next=prev;
+            prev=cur;
+            cur=next;
+        }
+        
+        return prev;
+        
+    }
+    
+    public void addOne(){
+        
+        Node cur=reverse(head);
+        
+        int sum=0;
+        int carry=1;
+        Node prev=null;
+        Node res=null;
+        
+        while(cur!=null){
+            
+            sum= carry + cur.data;
+            
+            carry= ( sum>=10 ) ? 1 : 0;
+            
+            sum=sum%10;
+            
+            Node temp=new Node(sum);
+            
+            if(res==null){
+                res=temp;
+            }else{
+                prev.next=temp;
+            }
+            
+            prev=temp;
+            
+            cur=cur.next;
+        }
+        
+        print(reverse(res));
+        
+    }
+    
+}
+
+public class Main
+{
+	public static void main(String[] args) {
+
+	    LL list1=new LL();
+	    
+	    list1.add(1);
+	    list1.add(9);
+	    list1.add(9);
+	    list1.add(9);
+		list1.addOne();
+	}
+}
