@@ -1,0 +1,84 @@
+ import java.util.*;
+public class Main {  
+
+static class Node 
+{  
+    char data;  
+    Node prev;  
+    Node next;  
+} 
+static Node head = null; 
+ 
+static void push(char new_data)  
+{  
+    Node new_node = new Node();  
+    new_node.data = new_data;  
+    new_node.prev = null;  
+    new_node.next = (head);  
+    if ((head) != null)  
+        (head).prev = new_node;  
+head = new_node;  
+}  
+
+static void printList(Node node)  
+{  
+    while (node != null && node.next != null) 
+    {  
+        System.out.print(node.data + " ");  
+        node = node.next;  
+    }  
+    if(node != null) 
+    System.out.print(node.data);  
+}  
+
+static void rotate(int N){
+    
+    if(N==0){
+        return;
+    }
+    
+    char arr[]=new char[N];
+    Node cur=head;
+    while(true){
+    int count=0;
+    
+    while(cur!=null && count<N){
+        arr[count]=cur.data;
+        cur=cur.next;
+        count++;
+    }
+    
+    if(cur==null){
+        return;
+    }
+
+    Node next1=cur;
+
+    for(int i=0;i<count;i++){
+        cur=cur.prev;
+        cur.data=arr[i];
+    }
+
+    cur=next1;
+
+    }
+   
+}
+  
+
+public static void main(String[] args)  
+{  
+
+    push( 'e');  
+    push( 'd');  
+    push('c');  
+    push('b');  
+    push( 'a');  
+  
+    int N = 2;  
+    System.out.println("Given linked list ");  
+    rotate(N);  
+    printList(head); 
+
+}  
+}  
